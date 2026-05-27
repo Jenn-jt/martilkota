@@ -35,7 +35,7 @@
     .carta-hero p { font-family: 'Cormorant Infant', serif; font-size: 22px; font-style: italic; max-width: 560px; margin: 0 auto; line-height: 1.4; color: rgba(255,255,255,0.92); }
 
     /* === FILTROS DE CATEGORÍAS === */
-    .filtros { background: #fff; padding: 22px 32px; position: sticky; top: 67px; z-index: 50; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+    .filtros { background: #fff; padding: 22px 32px; position: sticky; top: 71px; z-index: 50; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
     .filtros-grid { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
     .filtro { padding: 10px 22px; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; color: #6A6A6A; border-bottom: 1px solid transparent; font-weight: 400; }
     .filtro:hover { color: #1A1A1A; }
@@ -65,9 +65,9 @@
     /* === ALÉRGENOS POR PLATO === */
     .plato-alergenos { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
     .a-icon { width: 24px; height: 24px; border-radius: 50%; background: #F5F7F7; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #6A6A6A; border: 0.5px solid rgba(0,0,0,0.08); cursor: help; transition: all 0.2s; letter-spacing: 0; font-family: 'Libre Franklin', sans-serif; position: relative; }
-    .a-icon:hover { background: #CB6037; color: #fff; border-color: #CB6037; transform: scale(1.08); }
-    .a-icon:hover::after { content: attr(data-name); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: #1A1A1A; color: #fff; padding: 5px 10px; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; border-radius: 3px; z-index: 10; pointer-events: none; }
-    .a-icon:hover::before { content: ''; position: absolute; bottom: 116%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: #1A1A1A; z-index: 10; }
+    .a-icon:hover, .a-icon.show { background: #CB6037; color: #fff; border-color: #CB6037; transform: scale(1.08); }
+    .a-icon:hover::after, .a-icon.show::after { content: attr(data-name); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: #1A1A1A; color: #fff; padding: 5px 10px; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; border-radius: 3px; z-index: 10; pointer-events: none; }
+    .a-icon:hover::before, .a-icon.show::before { content: ''; position: absolute; bottom: 116%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: #1A1A1A; z-index: 10; }
     /* Variante "menú adaptable" */
     .a-icon.adapt { background: #fff; border-style: dashed; }
     /* Variante "sin / apto" */
@@ -128,13 +128,29 @@
     .wa-float { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px; cursor: pointer; z-index: 90; box-shadow: 0 8px 24px rgba(0,0,0,0.18); transition: transform 0.2s; }
     .wa-float:hover { transform: scale(1.08); }
 
+    /* === NAV MÓVIL (HAMBURGUESA) === */
+    .nav-burger { display: none; background: none; border: 0; padding: 8px; cursor: pointer; }
+    .nav-burger span { display: block; width: 22px; height: 2px; background: #1A1A1A; margin: 5px 0; transition: transform .25s ease, opacity .2s ease; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-mobile { display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(14px); flex-direction: column; padding: 24px 28px 40px; z-index: 99; overflow-y: auto; }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a { font-family: 'Cormorant Infant', serif; font-size: 24px; color: #1A1A1A; text-decoration: none; padding: 18px 0; border-bottom: 0.5px solid rgba(0,0,0,0.08); letter-spacing: 0.01em; }
+    .nav-mobile a.active { color: #CB6037; font-style: italic; }
+    .nav-mobile .nav-cta { display: inline-block; margin-top: 24px; text-align: center; padding: 16px 28px; font-size: 11px; letter-spacing: 0.22em; }
+
     @media (max-width: 900px) {
       .nav { padding: 14px 20px; }
       .nav-left, .nav-right { display: none; }
-      .carta-hero h1 { font-size: 50px; }
-      .carta-hero p { font-size: 18px; }
-      .filtros { padding: 16px 12px; }
-      .filtro { padding: 8px 12px; font-size: 10px; }
+      .nav-burger { display: block; }
+      .carta-hero { padding: 60px 24px 40px; }
+      .carta-hero h1 { font-size: 46px; }
+      .carta-hero p { font-size: 17px; }
+      .filtros { padding: 12px 0; top: 70px; }
+      .filtros-grid { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding: 0 16px; gap: 4px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .filtros-grid::-webkit-scrollbar { display: none; }
+      .filtro { padding: 8px 14px; font-size: 10px; white-space: nowrap; flex-shrink: 0; }
       .platos { grid-template-columns: 1fr; gap: 4px 0; }
       .cat-head h2 { font-size: 36px; }
       .infantil-grid { grid-template-columns: 1fr; }
@@ -143,6 +159,7 @@
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
       .carta-wrap { padding: 50px 20px 70px; }
       .leyenda-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .wa-float { bottom: 18px; right: 18px; width: 50px; height: 50px; font-size: 22px; }
     }
   </style>
 </head>
@@ -161,7 +178,15 @@
       <a href="../donde-estamos/" style="color:inherit; text-decoration:none;"><span>Visítanos</span></a>
       <a href="../donde-estamos/" style="color:inherit; text-decoration:none;"><button class="nav-cta">Reservar</button></a>
     </div>
+    <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="../">Inicio</a>
+    <a href="./" class="active">Carta</a>
+    <a href="./">Coffee</a>
+    <a href="../donde-estamos/">Visítanos</a>
+    <a href="../donde-estamos/"><button class="nav-cta">Reservar mesa</button></a>
+  </div>
 
   <!-- HERO -->
   <section class="carta-hero">
@@ -657,6 +682,37 @@
   <a href="https://wa.me/34917653982?text=Hola%2C%20quer%C3%ADa%20reservar%20mesa%20en%20Martilota" target="_blank" rel="noopener" style="text-decoration:none;"><div class="wa-float" title="WhatsApp">💬</div></a>
 
   <script>
+    // Menú hamburguesa móvil
+    (function(){
+      const burger = document.querySelector('.nav-burger');
+      const navMobile = document.getElementById('navMobile');
+      if (!burger || !navMobile) return;
+      function toggle(open){
+        const willOpen = open ?? !burger.classList.contains('open');
+        burger.classList.toggle('open', willOpen);
+        navMobile.classList.toggle('open', willOpen);
+        burger.setAttribute('aria-expanded', willOpen);
+        document.body.style.overflow = willOpen ? 'hidden' : '';
+      }
+      burger.addEventListener('click', () => toggle());
+      navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
+    })();
+
+    // Tooltips de alérgenos por toque (touch devices)
+    (function(){
+      document.querySelectorAll('.a-icon').forEach(icon => {
+        icon.addEventListener('click', e => {
+          if (icon.closest('.leyenda-item, .leyenda-nota')) return;
+          e.stopPropagation();
+          document.querySelectorAll('.a-icon.show').forEach(o => { if (o !== icon) o.classList.remove('show'); });
+          icon.classList.toggle('show');
+        });
+      });
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.a-icon.show').forEach(o => o.classList.remove('show'));
+      });
+    })();
+
     // Filtros interactivos: scroll a categoría
     const filtros = document.querySelectorAll('.filtro');
     const categorias = document.querySelectorAll('.categoria');

@@ -136,9 +136,22 @@
     .wa-float { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px; cursor: pointer; z-index: 90; box-shadow: 0 8px 24px rgba(0,0,0,0.18); transition: transform 0.2s; }
     .wa-float:hover { transform: scale(1.08); }
 
+    /* === NAV MÓVIL (HAMBURGUESA) === */
+    .nav-burger { display: none; background: none; border: 0; padding: 8px; cursor: pointer; }
+    .nav-burger span { display: block; width: 22px; height: 2px; background: #1A1A1A; margin: 5px 0; transition: transform .25s ease, opacity .2s ease; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-mobile { display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(14px); flex-direction: column; padding: 24px 28px 40px; z-index: 99; overflow-y: auto; }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a { font-family: 'Cormorant Infant', serif; font-size: 24px; color: #1A1A1A; text-decoration: none; padding: 18px 0; border-bottom: 0.5px solid rgba(0,0,0,0.08); letter-spacing: 0.01em; }
+    .nav-mobile a.active { color: #CB6037; font-style: italic; }
+    .nav-mobile .nav-cta { display: inline-block; margin-top: 24px; text-align: center; padding: 16px 28px; font-size: 11px; letter-spacing: 0.22em; }
+
     @media (max-width: 900px) {
       .nav { padding: 14px 20px; }
       .nav-left, .nav-right { display: none; }
+      .nav-burger { display: block; }
       .hero h1 { font-size: 50px; }
       .hero-sub { font-size: 17px; }
       .info-rapida { grid-template-columns: 1fr 1fr; gap: 12px; margin-top: -30px; padding: 22px 16px; }
@@ -156,6 +169,10 @@
       .cta-reserva h2 { font-size: 38px; }
       .descripcion, .alrededores, .como-llegar { padding: 70px 20px; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .wa-float { bottom: 18px; right: 18px; width: 50px; height: 50px; font-size: 22px; }
+      .ctas { flex-direction: column; align-items: stretch; }
+      .ctas a { display: block; }
+      .ctas button { width: 100%; }
     }
   </style>
 </head>
@@ -174,7 +191,15 @@
       <span class="active">Visítanos</span>
       <a href="#reservar" style="text-decoration:none;"><button class="nav-cta">Reservar</button></a>
     </div>
+    <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="../">Inicio</a>
+    <a href="../carta/">Carta</a>
+    <a href="../carta/">Coffee</a>
+    <a href="./" class="active">Visítanos</a>
+    <a href="#reservar"><button class="nav-cta">Reservar mesa</button></a>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -395,5 +420,22 @@
 
   <a href="https://wa.me/34917653982?text=Hola%2C%20quer%C3%ADa%20reservar%20mesa%20en%20Martilota" target="_blank" rel="noopener" style="text-decoration:none;"><div class="wa-float" title="WhatsApp">💬</div></a>
 
+  <script>
+    // Menú hamburguesa móvil
+    (function(){
+      const burger = document.querySelector('.nav-burger');
+      const navMobile = document.getElementById('navMobile');
+      if (!burger || !navMobile) return;
+      function toggle(open){
+        const willOpen = open ?? !burger.classList.contains('open');
+        burger.classList.toggle('open', willOpen);
+        navMobile.classList.toggle('open', willOpen);
+        burger.setAttribute('aria-expanded', willOpen);
+        document.body.style.overflow = willOpen ? 'hidden' : '';
+      }
+      burger.addEventListener('click', () => toggle());
+      navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
+    })();
+  </script>
 </body>
 </html>
